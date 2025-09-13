@@ -6,7 +6,16 @@ class Kubelist < Formula
   license "MIT"
   version "1.0.0"
 
-  depends_on "kubectl"
+  depends_on "kubernetes-cli"
+
+  def caveats
+    <<~EOS
+      kubelist requires kubectl to function. If you already have kubectl installed
+      (e.g., via Docker Desktop, OrbStack, or manual installation), you can skip
+      installing the kubernetes-cli dependency by using:
+        brew install --ignore-dependencies kubelist
+    EOS
+  end
 
   def install
     bin.install "kubelist"
