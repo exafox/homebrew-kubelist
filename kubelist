@@ -22,6 +22,7 @@ SAFE_COMMANDS=(
     "explain"
     "api-resources"
     "api-versions"
+    "port-forward"
 )
 
 # Safe subcommands for 'config' command
@@ -56,6 +57,7 @@ SAFE COMMANDS:
     explain          Get documentation for a resource
     api-resources    Print the supported API resources on the server
     api-versions     Print the supported API versions on the server
+    port-forward     Forward one or more local ports to a pod
     config view      Display merged kubeconfig settings
     config get-contexts  Display list of contexts
     config current-context  Display current context
