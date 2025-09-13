@@ -2,7 +2,7 @@ class Kubelist < Formula
   desc "Secure wrapper around kubectl that restricts execution to safe commands"
   homepage "https://github.com/exafox/homebrew-kubelist"
   url "https://github.com/exafox/homebrew-kubelist/archive/v1.tar.gz"
-  sha256 "0019dfc4b32d63c1392aa264aed2253c1e0c2fb09216f8e2cc269bbfb8bb49b5"
+  sha256 "2515d9346ef9e61100b761842fafd848b41e038ad9c1485d41e1966d4a6330cd"
   license "MIT"
   version "1.0.0"
 
