@@ -1,0 +1,199 @@
+.TH KUBELIST 1 "September 13, 2025" "Version 1.0.0" "User Commands"
+.SH NAME
+kubelist \- A secure wrapper around kubectl that restricts execution to safe commands
+.SH SYNOPSIS
+.B kubelist
+[\fIOPTIONS\fR] \fICOMMAND\fR [\fIARGS\fR...]
+.SH DESCRIPTION
+.B kubelist
+is a security-focused shell script that acts as a wrapper around the Kubernetes command-line tool,
+.BR kubectl (1).
+It allows execution of only a predefined set of safe, read-only commands, preventing potentially harmful operations that could modify cluster state or compromise security.
+
+The script implements a whitelist approach, explicitly allowing only commands that are guaranteed to be safe for cluster inspection and monitoring. Any attempt to execute unsafe commands will be blocked with a clear error message.
+
+This tool is designed for environments where users need to inspect Kubernetes resources but should not have the ability to make changes to the cluster state.
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Display help information showing usage, safe commands, and examples.
+.TP
+\fB\-v\fR, \fB\-\-version\fR
+Display version information and exit.
+.SH SAFE COMMANDS
+The following kubectl commands are permitted by
+.BR kubelist :
+.TP
+.B get
+Display one or many resources. Retrieve information about pods, services, deployments, etc.
+.TP
+.B describe
+Show detailed information about a specific resource or group of resources, including events and status.
+.TP
+.B logs
+Print the logs for a container in a pod. Supports following logs and selecting specific containers.
+.TP
+.B top
+Display resource (CPU/memory) usage for nodes or pods. Requires metrics-server to be installed.
+.TP
+.B version
+Print the client and server version information for kubectl and Kubernetes.
+.TP
+.B cluster-info
+Display cluster information including master and services endpoints.
+.TP
+.B explain
+Get documentation for a resource, showing available fields and their descriptions.
+.TP
+.B api-resources
+Print the supported API resources on the server, showing names, shortnames, and API groups.
+.TP
+.B api-versions
+Print the supported API versions on the server in the form of "group/version".
+.TP
+.B config view
+Display merged kubeconfig settings without revealing sensitive authentication data.
+.TP
+.B config get-contexts
+Display list of contexts available in kubeconfig.
+.TP
+.B config current-context
+Display the current context name.
+.TP
+.B config get-clusters
+Display clusters defined in kubeconfig.
+.TP
+.B config get-users
+Display users defined in kubeconfig.
+.SH BLOCKED COMMANDS
+The following types of kubectl commands are
+.B NOT
+permitted and will result in an error:
+.TP
+.B Destructive Operations
+delete, patch, replace \- Commands that remove or modify existing resources
+.TP
+.B Resource Creation
+create, apply \- Commands that create new resources or apply configurations
+.TP
+.B Scaling Operations
+scale, autoscale \- Commands that modify resource scaling
+.TP
+.B Rollout Management
+rollout \- Commands that manage deployments, daemonsets, and statefulsets rollouts
+.TP
+.B Interactive Operations
+exec, attach \- Commands that provide shell access or attach to containers
+.TP
+.B Port Operations
+port-forward, proxy \- Commands that expose cluster services externally
+.TP
+.B File Operations
+cp \- Commands that copy files to/from containers
+.TP
+.B Resource Editing
+edit \- Commands that open resources in an editor for modification
+.SH EXAMPLES
+View all pods in the current namespace:
+.PP
+.RS
+.B kubelist get pods
+.RE
+.PP
+Get detailed information about a specific deployment:
+.PP
+.RS
+.B kubelist describe deployment nginx-deployment
+.RE
+.PP
+View logs from a container, following new log entries:
+.PP
+.RS
+.B kubelist logs my-pod -c my-container -f
+.RE
+.PP
+Display resource usage for all nodes:
+.PP
+.RS
+.B kubelist top nodes
+.RE
+.PP
+Show all available API resources:
+.PP
+.RS
+.B kubelist api-resources
+.RE
+.PP
+View current kubeconfig context:
+.PP
+.RS
+.B kubelist config current-context
+.RE
+.PP
+Get documentation for pod resources:
+.PP
+.RS
+.B kubelist explain pod.spec.containers
+.RE
+.SH EXIT STATUS
+.B kubelist
+exits with status 0 if the command is allowed and executed successfully by kubectl.
+If an unauthorized command is attempted, it exits with status 1 and displays an error message.
+If kubectl is not installed or not found in PATH, it exits with status 1.
+.SH SECURITY CONSIDERATIONS
+.B kubelist
+implements a security-first approach:
+.IP \[bu] 2
+Uses a whitelist of safe commands rather than blacklisting dangerous ones
+.IP \[bu] 2
+Validates all command arguments before passing them to kubectl
+.IP \[bu] 2
+Provides clear error messages when unsafe commands are attempted
+.IP \[bu] 2
+Requires kubectl to be properly installed and configured
+.IP \[bu] 2
+Does not modify or bypass kubectl's authentication and authorization mechanisms
+.PP
+Users who need to perform cluster modifications should use
+.BR kubectl (1)
+directly with appropriate permissions and caution.
+.SH INSTALLATION
+To install
+.BR kubelist :
+.IP 1. 3
+Copy the kubelist script to a directory in your PATH (e.g., /usr/local/bin/)
+.IP 2. 3
+Ensure the script is executable: chmod +x /usr/local/bin/kubelist
+.IP 3. 3
+Optionally install this man page: sudo cp kubelist.1 /usr/local/share/man/man1/
+.IP 4. 3
+Update the man database: sudo mandb
+.SH ENVIRONMENT
+.B kubelist
+respects all kubectl environment variables and configuration:
+.TP
+.B KUBECONFIG
+Path to kubeconfig file(s)
+.TP
+.B KUBECTL_EXTERNAL_DIFF
+External diff program for kubectl diff command
+.PP
+All other kubectl environment variables are passed through unchanged.
+.SH FILES
+.TP
+.I ~/.kube/config
+Default kubeconfig file location
+.TP
+.I /etc/kubernetes/admin.conf
+System-wide kubeconfig file (if present)
+.SH BUGS
+Report bugs and issues at: https://github.com/your-username/kubelist/issues
+.SH AUTHOR
+Written for secure Kubernetes cluster access and administration.
+.SH SEE ALSO
+.BR kubectl (1),
+.BR kubernetes (7)
+.PP
+Kubernetes documentation: https://kubernetes.io/docs/
+.PP
+kubectl reference: https://kubernetes.io/docs/reference/kubectl/
