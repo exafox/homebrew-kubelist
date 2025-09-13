@@ -50,21 +50,21 @@ The following potentially dangerous operations are blocked:
 
 ```bash
 # Install via Homebrew tap
-brew tap your-username/kubelist
+brew tap exafox/kubelist
 brew install kubelist
 
 # Or install directly in one command
-brew install your-username/kubelist/kubelist
+brew install exafox/kubelist/kubelist
 ```
 
 ### One-Line Install Script
 
 ```bash
 # Download and install automatically
-curl -sSL https://raw.githubusercontent.com/your-username/kubelist/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/exafox/homebrew-kubelist/main/install.sh | bash
 
 # Or download script first to review
-curl -o install.sh https://raw.githubusercontent.com/your-username/kubelist/main/install.sh
+curl -o install.sh https://raw.githubusercontent.com/exafox/homebrew-kubelist/main/install.sh
 chmod +x install.sh
 ./install.sh
 ```

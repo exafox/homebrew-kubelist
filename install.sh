@@ -19,8 +19,8 @@ INSTALL_DIR="/usr/local/bin"
 MAN_DIR="/usr/local/share/man/man1"
 
 # GitHub repository information
-GITHUB_USER="your-username"
-GITHUB_REPO="kubelist"
+GITHUB_USER="exafox"
+GITHUB_REPO="homebrew-kubelist"
 GITHUB_URL="https://github.com/${GITHUB_USER}/${GITHUB_REPO}"
 
 # Function to print colored output
