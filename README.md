@@ -46,7 +46,30 @@ The following potentially dangerous operations are blocked:
 
 ## Installation
 
-### Quick Install
+### Homebrew (Recommended)
+
+```bash
+# Install via Homebrew tap
+brew tap your-username/kubelist
+brew install kubelist
+
+# Or install directly in one command
+brew install your-username/kubelist/kubelist
+```
+
+### One-Line Install Script
+
+```bash
+# Download and install automatically
+curl -sSL https://raw.githubusercontent.com/your-username/kubelist/main/install.sh | bash
+
+# Or download script first to review
+curl -o install.sh https://raw.githubusercontent.com/your-username/kubelist/main/install.sh
+chmod +x install.sh
+./install.sh
+```
+
+### Manual Install
 
 ```bash
 # Download and install kubelist
@@ -60,7 +83,7 @@ sudo mv kubelist.1 /usr/local/share/man/man1/
 sudo mandb
 ```
 
-### Manual Install
+### From Source
 
 1. **Clone the repository**:
    ```bash
